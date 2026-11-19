@@ -183,7 +183,7 @@ AI Lab - offline deployment package
    It loads the two docker images, checks the model store, then calls project\start.bat
 
 3. After it starts, open http://localhost:3000
-   code-server : http://localhost:8080   password: ai-lab-2026
+   code-server : http://localhost:8080   password: see CODE_SERVER_PASSWORD in .env
    MLflow      : http://localhost:5001
    Predict     : http://localhost:8501
    RAG         : http://localhost:8502

@@ -24,7 +24,7 @@ services:
       #   docker exec -d ai-lab /opt/venv/bin/python tools/serve_portal.py 3000
       - "3000:3000"
     environment:
-      - "PASSWORD=${CODE_SERVER_PASSWORD:-ai-lab-2026}"
+      - "PASSWORD=${CODE_SERVER_PASSWORD:?请在 .env 中设置 CODE_SERVER_PASSWORD}"
       - "TZ=Asia/Shanghai"
       # Node 21+ 引入了全局 navigator，扩展会误判成浏览器环境而崩溃/功能失效。
       # 这个脚本在启动时把 navigator 删掉，恢复成 Node 20 的行为。

@@ -92,7 +92,7 @@
 
 第 6 步  逐项验证（建议按这个顺序）
   ① 浏览器内开发
-     打开 http://localhost:8080，密码 ai-lab-2026
+     打开 http://localhost:8080，密码见 .env 的 CODE_SERVER_PASSWORD
      打开 test.py，点右上角运行按钮，能输出 Python/Torch 版本
   ② 智能补全与自动注释
      补全：在 test.py 末尾新起一行，输入   def avg(   停一秒

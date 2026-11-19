@@ -2,7 +2,11 @@
 const { chromium } = require("playwright-core");
 const EDGE = "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe";
 const URL = "http://localhost:8080";
-const PASSWORD = "ai-lab-2026";
+const PASSWORD = process.env.CODE_SERVER_PASSWORD;
+if (!PASSWORD) {
+  console.error("请先设置环境变量 CODE_SERVER_PASSWORD（code-server 登录密码）再运行");
+  process.exit(1);
+}
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const logs = [];
 

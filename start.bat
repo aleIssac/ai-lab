@@ -71,7 +71,7 @@ timeout /t 15 /nobreak >nul
 echo.
 echo ================================================
 echo   Portal        http://localhost:3000
-echo   code-server   http://localhost:8080   (pwd ai-lab-2026)
+echo   code-server   http://localhost:8080   (pwd: see CODE_SERVER_PASSWORD)
 echo   MLflow        http://localhost:5001
 echo   Predict       http://localhost:8501
 echo   RAG           http://localhost:8502

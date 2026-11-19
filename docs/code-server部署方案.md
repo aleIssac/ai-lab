@@ -358,7 +358,7 @@ notepad config\config.yaml
 .\start.bat
 
 # 3. 浏览器打开
-#    http://localhost:8080    密码 ai-lab-2026
+#    http://localhost:8080    密码见 .env 的 CODE_SERVER_PASSWORD
 ```
 
 ### 11.3 首次进入 code-server 后要做的事
