@@ -1,6 +1,17 @@
 # ai-lab
 
-离线 AI 开发教学环境。两个 Docker 容器承载编辑器、模型服务、实验跟踪与演示页面，宿主机只需 Docker Desktop，不安装 Python。
+**离线 AI 开发教学环境**
+
+![Windows 11](https://img.shields.io/badge/Windows_11-0078D4?style=flat-square&logo=windows11&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
+![Python](https://img.shields.io/badge/Python_3.13-3776AB?style=flat-square&logo=python&logoColor=white)
+![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=flat-square&logo=pytorch&logoColor=white)
+![Apache Spark](https://img.shields.io/badge/Apache_Spark-E25A1C?style=flat-square&logo=apachespark&logoColor=white)
+![MLflow](https://img.shields.io/badge/MLflow-0194E2?style=flat-square&logo=mlflow&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)
+![Ollama](https://img.shields.io/badge/Ollama-000000?style=flat-square&logo=ollama&logoColor=white)
+
+两个 Docker 容器承载编辑器、模型服务、实验跟踪与演示页面，宿主机只需 Docker Desktop，不安装 Python。
 
 | 项 | 值 |
 |---|---|
@@ -16,13 +27,13 @@
 
 | # | 模块 | 入口 | 实现 |
 |---|---|---|---|
-| ① | 编码与调试 | `:8080` | code-server 4.141（VS Code 1.141），Python / Jupyter 扩展，支持断点调试 |
-| ② | 代码补全 | `:8080` | 自研扩展调用 `qwen-coder-fim`，请求经 `:11435` 代理转为 FIM 格式，Tab 接受；`Ctrl+Alt+C` 生成注释，`Ctrl+Alt+Shift+C` 批量处理 |
-| ③ | 报错诊断 | `:8080` · `Ctrl+Alt+K` | 选中报错文本，由本地模型返回排查路径 |
-| ④ | 端到端实训 | `:8080` `:5001` `:8000` `:8501` `:8502` | 数据清洗 → 特征工程 → 训练 → MLflow 跟踪 → FastAPI 服务 → Streamlit 界面 → RAG 问答 |
-| ⑤ | 超参实验 | `:3000` | TensorFlow Playground，前向传播、反向传播与梯度更新在前端实时执行 |
-| ⑥ | Transformer 可视化 | `:3000` | GPT-2 转 ONNX，ONNX Runtime Web 在浏览器内完成推理，逐层展示注意力与输出概率 |
-| ⑦ | 算法可视化 | `:3000` | ConvNetJS 系列 demo，含 DQN 与 CIFAR-10 |
+| ① | 🖥️ 编码与调试 | `:8080` | code-server 4.141（VS Code 1.141），Python / Jupyter 扩展，支持断点调试 |
+| ② | ⚡ 代码补全 | `:8080` | 自研扩展调用 `qwen-coder-fim`，请求经 `:11435` 代理转为 FIM 格式，Tab 接受；`Ctrl+Alt+C` 生成注释，`Ctrl+Alt+Shift+C` 批量处理 |
+| ③ | 🩺 报错诊断 | `:8080` · `Ctrl+Alt+K` | 选中报错文本，由本地模型返回排查路径 |
+| ④ | 🔁 端到端实训 | `:8080` `:5001` `:8000` `:8501` `:8502` | 数据清洗 → 特征工程 → 训练 → MLflow 跟踪 → FastAPI 服务 → Streamlit 界面 → RAG 问答 |
+| ⑤ | 🧪 超参实验 | `:3000` | TensorFlow Playground，前向传播、反向传播与梯度更新在前端实时执行 |
+| ⑥ | 🔬 Transformer 可视化 | `:3000` | GPT-2 转 ONNX，ONNX Runtime Web 在浏览器内完成推理，逐层展示注意力与输出概率 |
+| ⑦ | 🕹️ 算法可视化 | `:3000` | ConvNetJS 系列 demo，含 DQN 与 CIFAR-10 |
 
 模块 ④ 的三个专项各自配有 Notebook：
 
