@@ -1,0 +1,65 @@
+name: ai-lab-api
+version: 1.0.0
+schema: v1
+
+models:
+  # 补全用 qwen-fim：在 qwen2.5-coder 基础上加了 FIM 停止标记，
+  # 实测 0.1 秒 / 6 tokens，远快于 nate/instinct（1 秒+，CPU 上容易触发超时）
+  # 模型名必须同时含 "qwen" 和 "coder"！
+  # Continue 的 getTemplateForModel 只在这种情况下才用 Qwen 的 <|fim_prefix|> 模板；
+  # 名字里只有 qwen 会掉进 StableCode 分支，发出去变成 <fim_prefix>（没竖线），模型认不出。
+  - name: Qwen 补全
+    provider: ollama
+    model: qwen-coder-fim
+    apiBase: http://localhost:11435
+    roles:
+      - autocomplete
+    defaultCompletionOptions:
+      maxTokens: 32
+      temperature: 0.2
+    # 关掉所有上下文注入：带 <|repo_name|>/<|file_sep|> 的多文件前缀会把 1.5B 模型带跑偏，
+    # 实测输出退化成 "  \n   with" 这种空白，Continue 判为无效补全直接丢掉
+    autocompleteOptions:
+      useRecentlyEdited: false
+      useRecentlyOpened: false
+      useImports: false
+      useCache: false
+      onlyMyCode: false
+      transform: false
+      debounceDelay: 250
+      maxPromptTokens: 512
+      experimental_includeRecentlyVisitedRanges: false
+      experimental_includeRecentlyEditedRanges: false
+      experimental_includeClipboard: false
+      experimental_includeDiff: false
+
+  # 备用：nate/instinct（4.7GB，Next Edit 官方模型，但 CPU 推理慢）
+  # - name: Instinct 补全
+  #   provider: ollama
+  #   model: nate/instinct
+  #   apiBase: http://ollama:11434
+  #   roles: [autocomplete]
+
+  # 对话 / 代码编辑：用原模型，需要正常的 chat template
+  - name: Qwen 对话
+    provider: ollama
+    model: qwen2.5-coder:1.5b
+    apiBase: http://ollama:11434
+    roles:
+      - chat
+      - edit
+      - apply
+
+context:
+  - provider: code
+  - provider: docs
+  - provider: diff
+  - provider: terminal
+  - provider: problems
+  - provider: folder
+  - provider: codebase
+
+rules:
+  - 一律使用简体中文回答。
+  - 涉及 PyTorch 报错时，先判断是张量形状不匹配、设备不一致还是梯度爆炸，再给修复代码。
+  - 生成代码时保留原有注释风格，不要删除已有中文注释。

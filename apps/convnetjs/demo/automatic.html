@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>ConvNetJS 自动建模</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
+
+  <script src="../build/convnet.js"></script>
+  <script src="../build/util.js"></script>
+  <script src="../build/vis.js"></script>
+  <script src="js/jquery-1.8.3.min.js"></script>
+  <script src="js/jquery.csv-0.71.min.js"></script>
+  
+  <!-- JS syntax highlighting -->
+  <script type="text/javascript" src="../syntaxhighlighter_3.0.83/scripts/shCore.js"></script>
+  <script type="text/javascript" src="../syntaxhighlighter_3.0.83/scripts/shBrushJScript.js"></script>
+  <link type="text/css" rel="stylesheet" href="../syntaxhighlighter_3.0.83/styles/shCoreDefault.css"/>
+  <script type="text/javascript">SyntaxHighlighter.all();</script>
+
+  <link rel="stylesheet" href="css/automatic.css">
+  
+  <script src="js/automatic.js"></script>
+ </head>
+ <body onload="start();">
+  <div id="wrap">
+    <h2>ConvNetJS · 自动建模演示</h2>
+    <h1>简介</h1>
+    <p>
+   本演示展示 ConvNetJS 里 <b>MagicNet</b> 类的用法——它能在给定任意数据的情况下，全自动完成预测。
+   内部实现上，MagicNet 会尝试多种不同的网络结构，对网络超参数按数据分折做交叉验证，
+   再对表现最好的若干结构做模型平均，得到最终分类器。MagicNet 的 API 大致如下
+   </p>
+
+<pre class="brush: js; toolbar: false;">
+var opts = {}; // options struct
+opts.train_ratio = 0.7;
+opts.num_folds = 10; // number of folds to eval per candidate
+opts.num_candidates = 10; // number of candidates to eval in parallel
+opts.num_epochs = 50; // epochs to make through data per fold
+// below, train_data is a list of input Vols and train_labels is a 
+// list of integer correct labels (in 0...K).
+var magicNet = new convnetjs.MagicNet(train_data, train_labels, opts);
+magicNet.onFinishBatch(finishedBatch); // example of setting callback for events
+
+// start training magicNet. Every step() call all candidates train on one example
+setInterval(function(){ magicNet.step() }, 0);
+
+// once at least one batch of candidates is evaluated on all folds we can do prediction!
+function finishedBatch() {
+  // prediction example. xout is Vol of scores
+  // there is also predict_soft(), which returns the full score volume for all labels
+  var predicted_label = magicNet.predict(some_test_vol);
+}
+</pre>
+
+    <h1>你的数据</h1>
+    <p>
+      Currently made input data assumptions:
+    </p>
+    <ul>
+      <li>以 CSV（逗号分隔）格式提供数据，不要包含表头行。</li>
+      <li>每一行是一个数据样本。</li>
+      <li>不允许缺失值。</li>
+      <li>最后一列是类别标签（目前仅支持分类任务）。</li>
+    </ul>
+    <p>
+      The text area is pre-filled with a Car Quality Evaluation dataset to show you example input, but there are a few buttons that load some example datasets (more details on these: <a href="https://archive.ics.uci.edu/ml/datasets/Iris">Iris 数据</a>, <a href="https://archive.ics.uci.edu/ml/datasets/Car+Evaluation">汽车评估数据</a>, <a href="https://archive.ics.uci.edu/ml/datasets/Yeast">Yeast 数据</a>). A nice place to find more datasets are <a href="https://archive.ics.uci.edu/ml/datasets.html?format=mat&task=cla&att=&area=&numAtt=&numIns=&type=&sort=dateDown&view=table">UCI 数据集仓库</a> or <a href="http://mldata.org/repository/data/by_views/">mldata.org</a>.
+    </p>
+
+    <div style="text-align: center;">
+      <button class="clouds-flat-button" onclick="loadDB('data/iris.data.txt')" style="height: 40px; width: 260px; margin-bottom: 5px;">填入 Iris 数据</button>
+      <button class="clouds-flat-button" onclick="loadDB('data/car.data.txt')" style="height: 40px; width: 260px; margin-bottom: 5px;">填入 Car 评估数据</button>
+      <button class="clouds-flat-button" onclick="loadDB('data/yeast.data.txt')" style="height: 40px; width: 260px; margin-bottom: 5px;">填入 Yeast 数据</button>
+    </div>
+
+    <textarea id="data-ta" style="width:100%; height:200px;">
+    </textarea>
+
+    <button class="clouds-flat-button" onclick="importTrainData()" style="width: 200px; height: 40px; margin-top: 5px;">导入数据</button>
+    (and send <input type="text" id="testsplit" maxlength="3" value="20" style="width:40px;">% of imported data randomly into Test Set below)
+
+    <div id='prepromsg'></div>
+    <div id='datamsg'></div>
+    
+    <h1>交叉验证</h1>
+    
+    <div>
+    <input type="text" id="labelix" maxlength="4" value="-1" style="width:40px;">
+    Index of column to classify as target. (e.g. 0 = first column, -1 = last column)
+    </div>
+
+    <div>
+    <input type="text" id="trainp" name="train_split" maxlength="3" value="70" style="width:20px;">
+    Percent of data to use for training (rest will be validation)
+    </div>
+
+    <div>
+    <input type="text" id="foldsnum" name="folds_number" maxlength="3" value="3" style="width:40px;"> Number of data folds to evaluate per candidate
+    </div>
+
+    <div>
+    <input type="text" id="candsnum" name="candidates_number" maxlength="4" value="50" style="width:40px;"> Number of candidates in a batch, to evaluate in parallel
+    </div>
+
+    <div>
+    <input type="text" id="epochsnum" name="epochs_number" maxlength="4" value="40" style="width:40px;"> Number of epochs to make over each fold
+    </div>
+
+    <div>
+    Number of Neurons in each layer: Min <input type="text" id="nnmin" maxlength="4" value="5" style="width:40px;"> Max <input type="text" id="nnmax" maxlength="4" value="30" style="width:40px;"> 
+    </div>
+
+    <!--
+    <div class="sopts">
+    Batch size sampling:<br>
+    Min: <input type="text" id="bsmin" maxlength="4" value="10" style="width:40px;"> 
+    Max: <input type="text" id="bsmax" maxlength="4" value="300" style="width:40px;"> 
+    </div>
+
+    <div class="sopts">
+    L2 weight decay (values will be raised to power of 10):<br>
+    Min: <input type="text" id="l2min" maxlength="4" value="-4" style="width:40px;"> 
+    Max: <input type="text" id="l2max" maxlength="4" value="2" style="width:40px;"> 
+    </div>
+
+    <div class="sopts">
+    Learning rate for SGD/Adagrad (values will be raised to power of 10):<br>
+    Min: <input type="text" id="lrmin" maxlength="4" value="-4" style="width:40px;"> 
+    Max: <input type="text" id="lrmax" maxlength="4" value="0" style="width:40px;"> 
+    </div>
+
+    <div class="sopts">
+    Momentum for SGD (must be between 0 and 1):<br>
+    Min: <input type="text" id="mommin" maxlength="4" value="0.9" style="width:40px;"> 
+    Max: <input type="text" id="mommax" maxlength="4" value="0.9" style="width:40px;"> 
+    </div>
+    -->
+    
+    <button class="clouds-flat-button" onclick="startCV()" style="width: 200px; height: 40px; margin-top: 5px;">开始 / 重来</button>
+    <hr>
+
+    <p>Below: graph of the <b>验证准确率</b> for current batch of candidate models as a function of the number of training points they have seen during training. Good networks will rise up as high as possible and stay there. The best performer is printed in detail below the graph. The graph is less wiggly if there is more data.</p>
+    <div id="foldreport"></div>
+    <div id="candsreport"></div>
+
+    <canvas id="valgraph" width="800" height="400"></canvas>
+    <div id="bestmodel"></div>
+    <div id="bestmodeloverall"></div>
+    
+    <h1>在测试集上评估</h1>
+    <p>
+   在下面的框里粘贴一个测试集，用来评估最终的测试准确率——它基于上面训练数据中找到的若干最优
+   网络做模型平均之后的集成结果。粘贴的 CSV 应与上面训练数据使用同一种格式。
+   文本框里已经预填了训练数据。
+   </p>
+    
+    <div>
+    <input type="text" id="ensemblenum" maxlength="3" value="10" style="width:20px;"> Number of best models to average in the ensemble network
+    </div>
+
+    <textarea id="data-te" style="width:100%; height:200px;">
+    </textarea>
+    <button class="clouds-flat-button" onclick="testEval()" style="width: 200px; height: 40px; margin-top: 5px;">评估测试准确率</button>
+    <div id='datamsgtest'></div>
+    <br>
+    <div id="testresult"></div>
+
+    <h1>导出最优网络</h1>
+    <button class="clouds-flat-button" onclick="exportMagicNet()" style="width: 200px; height: 40px; margin-top: 5px;">导出</button><br><br>
+    <textarea id="taexport" style="width:100%; height:200px;">
+    </textarea>
+
+    Above you can export a trained MagicNet in JSON format. The exported MagicNet is simply a thin wrapper around a list of the best networks that were discovered during cross-validation and it can be loaded and used again as follows:
+<pre class="brush: js; toolbar: false;">
+var magicNet = new convnetjs.MagicNet();
+magicNet.fromJSON(json);
+magicNet.predict(some_vol); // ready to use!
+</pre>
+    
+    <br><br><br><br><br><br><br><br>
+    
+  </div>
+ </body>
+</html>

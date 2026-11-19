@@ -1,0 +1,10 @@
+{
+  "LogisticRegression": {
+    "AUC": 0.9487,
+    "Accuracy": 0.8982
+  },
+  "RandomForest": {
+    "AUC": 0.9339,
+    "Accuracy": 0.88
+  }
+}

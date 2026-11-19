@@ -1,0 +1,62 @@
+name: ailab
+
+services:
+  code-server:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        WITH_BIGDATA: "true"
+        WITH_LLM_APP: "true"
+    image: ai-lab:1.0
+    container_name: ai-lab
+    # 关闭 workspace trust：受限模式下 VS Code 会直接禁用 Continue 等扩展，
+    # 表现为「AI 补全不显示」而 chat 正常，极难排查
+    command: ["--bind-addr", "0.0.0.0:8080", "--disable-workspace-trust", "."]
+    ports:
+      - "8080:8080"
+      - "5001:5001"
+      - "8501:8501"
+      - "8502:8502"
+      - "8000:8000"
+      - "4040:4040"
+      # 门户也可以跑在容器里（目标机器没装 Python 时用这个）：
+      #   docker exec -d ai-lab /opt/venv/bin/python tools/serve_portal.py 3000
+      - "3000:3000"
+    environment:
+      - "PASSWORD=${CODE_SERVER_PASSWORD:-ai-lab-2026}"
+      - "TZ=Asia/Shanghai"
+      # Node 21+ 引入了全局 navigator，扩展会误判成浏览器环境而崩溃/功能失效。
+      # 这个脚本在启动时把 navigator 删掉，恢复成 Node 20 的行为。
+      - "NODE_OPTIONS=--require /home/coder/project/docker/fix-navigator.js"
+    volumes:
+      - ./:/home/coder/project
+      - ./config:/home/coder/.continue
+      # 扩展目录放在项目里，换机器时跟着项目一起走。
+      # 镜像本身不带任何用户扩展（Continue / Python / Jupyter / 自研补全都在这里）。
+      - ./docker/extensions:/home/coder/.local/share/code-server/extensions
+      - ai-lab-ext:/home/coder/.local
+      - ai-lab-config:/home/coder/.config
+    restart: unless-stopped
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    environment:
+      - "OLLAMA_HOST=0.0.0.0:11434"
+      - "OLLAMA_KEEP_ALIVE=24h"
+      - "OLLAMA_DEBUG=1"
+      - "OLLAMA_DEBUG_LOG_REQUESTS=true"
+      - "OLLAMA_GO_TEMPLATE=false"
+      - "TZ=Asia/Shanghai"
+    volumes:
+      # 模型目录：默认放项目里的 ollama-models（换机器时整个项目拷走就能用）。
+      # 本机在 .env 里指到了 D:/Environment/Server/ollama/models，保持原样。
+      - ${OLLAMA_MODELS:-./ollama-models}:/root/.ollama
+    restart: unless-stopped
+
+volumes:
+  ai-lab-ext:
+  ai-lab-config:

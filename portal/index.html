@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 教学实训平台 · 验收演示台</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                 "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: #f6f7f9;
+    color: #1a1a1a;
+    line-height: 1.6;
+    padding: 40px 24px 64px;
+  }
+
+  .wrap { max-width: 1180px; margin: 0 auto; }
+
+  header { margin-bottom: 36px; }
+
+  h1 {
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+  }
+
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid #d8dce3;
+    background: #fff;
+    color: #374151;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all .15s;
+  }
+  .btn:hover { border-color: #b9c0cc; background: #fbfcfd; }
+
+  .hint { font-size: 13px; color: #8b929e; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 18px;
+  }
+
+  .card {
+    background: #fff;
+    border: 1px solid #e5e8ee;
+    border-radius: 14px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow .18s, border-color .18s, transform .18s;
+  }
+
+  .card:hover {
+    box-shadow: 0 4px 20px rgba(20, 30, 50, .07);
+    border-color: #d3d9e2;
+    transform: translateY(-2px);
+  }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .num {
+    font-size: 12px;
+    font-weight: 600;
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    background: #eef2ff;
+    color: #4353b8;
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .num.g { background: #ecfdf5; color: #0f766e; }
+  .num.a { background: #fff7ed; color: #b45309; }
+
+  .status {
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: 20px;
+    background: #f3f4f6;
+    color: #6b7280;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: #9ca3af; }
+  .status.up { background: #ecfdf5; color: #047857; }
+  .status.up .dot { background: #10b981; }
+  .status.down { background: #fef2f2; color: #b91c1c; }
+  .status.down .dot { background: #ef4444; }
+
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 7px;
+    letter-spacing: -0.005em;
+  }
+
+  .desc { font-size: 13.5px; color: #5b6270; flex: 1; margin-bottom: 16px; }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .tag {
+    font-size: 11.5px;
+    padding: 3px 8px;
+    border-radius: 5px;
+    background: #f5f6f8;
+    color: #5f6673;
+    border: 1px solid #eceef2;
+  }
+
+  .links { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .link {
+    font-size: 13px;
+    padding: 7px 13px;
+    border-radius: 7px;
+    background: #4353b8;
+    color: #fff;
+    text-decoration: none;
+    transition: background .15s;
+  }
+  .link:hover { background: #37449a; }
+
+  .link.ghost {
+    background: #fff;
+    color: #4353b8;
+    border: 1px solid #d6dbf0;
+  }
+  .link.ghost:hover { background: #f6f7fd; }
+
+  .link.off {
+    background: #f3f4f6;
+    color: #9aa1ad;
+    border: 1px solid #e8eaee;
+    pointer-events: none;
+  }
+
+  code {
+    font-family: ui-monospace, "SF Mono", Consolas, monospace;
+    font-size: 12px;
+    background: #f1f3f6;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #374151;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>AI 教学实训平台</h1>
+    <div class="toolbar">
+      <button class="btn" onclick="checkAll()">
+        <span style="width:6px;height:6px;border-radius:50%;background:#10b981;display:inline-block"></span>
+        检测服务状态
+      </button>
+      <span class="hint" id="lastCheck">尚未检测</span>
+    </div>
+  </header>
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-top">
+        <div class="num">01</div>
+        <span class="status" data-check="8080"><span class="dot"></span>未检测</span>
+      </div>
+      <h3>浏览器内开发环境</h3>
+      <p class="desc">浏览器里的完整 VS Code：文件树、终端、调试器。Python 与 PyTorch 已在容器内就绪，可直接写代码、下断点、跑训练。</p>
+      <div class="tags"><span class="tag">code-server</span><span class="tag">PyTorch</span><span class="tag">调试器</span></div>
+      <div class="links">
+        <a class="link" href="http://localhost:8080" target="_blank">打开 IDE</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="num">02</div>
+        <span class="status" data-check="8080"><span class="dot"></span>未检测</span>
+      </div>
+      <h3>智能代码补全</h3>
+      <p class="desc">Tab 键接续式补全、函数整段生成、选中代码一键加注释。补全与对话都由本地或云端模型驱动，可自由切换。</p>
+      <div class="tags"><span class="tag">Continue</span><span class="tag">FIM 补全</span><span class="tag">代码大模型</span></div>
+      <div class="links">
+        <a class="link" href="http://localhost:8080" target="_blank">打开 IDE</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="num">03</div>
+        <span class="status" data-check="8080"><span class="dot"></span>未检测</span>
+      </div>
+      <h3>报错诊断与修复</h3>
+      <p class="desc">粘贴 traceback，自动定位维度不匹配、设备不一致、梯度爆炸等典型问题，给出修复代码与优化思路。</p>
+      <div class="tags"><span class="tag">Ctrl+Alt+K</span><span class="tag">traceback 解析</span><span class="tag">中文回答</span></div>
+      <div class="links">
+        <a class="link" href="http://localhost:8080" target="_blank">打开 IDE</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="num g">04</div>
+        <span class="status" data-check="stack"><span class="dot"></span>未检测</span>
+      </div>
+      <h3>端到端流程实训</h3>
+      <p class="desc">三个专项：AI 应用开发（清洗→特征→训练→部署）、大数据应用开发（Spark 分布式清洗与 MLlib 训练）、大模型应用开发（切块→向量化→RAG 问答→发布）。</p>
+      <div class="tags"><span class="tag">MLflow</span><span class="tag">PySpark</span><span class="tag">RAG</span><span class="tag">FastAPI</span></div>
+      <div class="links">
+        <a class="link" href="http://localhost:5001" target="_blank">实验记录</a>
+        <a class="link ghost" href="http://localhost:8501" target="_blank">预测页面</a>
+        <a class="link ghost" href="http://localhost:8502" target="_blank">RAG 问答</a>
+        <a class="link ghost" href="http://localhost:8000/docs" target="_blank">API 文档</a>
+        <a class="link ghost" href="http://localhost:8080" target="_blank">Notebook</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="num a">05</div>
+        <span class="status" data-check="/nn-playground/"><span class="dot"></span>未检测</span>
+      </div>
+      <h3>神经网络超参实验</h3>
+      <p class="desc">在线设定隐藏层数、每层神经元数、激活函数与学习率，实时观察决策边界与损失曲线变化。</p>
+      <div class="tags"><span class="tag">TensorFlow Playground</span><span class="tag">实时训练</span><span class="tag">免构建</span></div>
+      <div class="links">
+        <a class="link" href="./nn-playground/" target="_blank">开始实验</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="num a">06</div>
+        <span class="status" data-check="/transformer-explainer/"><span class="dot"></span>未检测</span>
+      </div>
+      <h3>Transformer 推理可视化</h3>
+      <p class="desc">GPT-2 级别的可视化实验环境，动态呈现自注意力、位置编码与前馈网络的计算全过程，模型在浏览器内本地推理。</p>
+      <div class="tags"><span class="tag">Transformer Explainer</span><span class="tag">ONNX</span><span class="tag">本地推理</span></div>
+      <div class="links">
+        <a class="link" href="./transformer-explainer/" target="_blank">打开可视化</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="num a">07</div>
+        <span class="status" data-check="/convnetjs/demo/mnist.html"><span class="dot"></span>未检测</span>
+      </div>
+      <h3>经典算法可视化实验</h3>
+      <p class="desc">CNN（MNIST / CIFAR-10）、自编码器、DQN 强化学习、一维回归与二维分类。六个实验全部在浏览器内实时训练，无后端。</p>
+      <div class="tags"><span class="tag">ConvNetJS</span><span class="tag">浏览器内训练</span><span class="tag">DQN</span></div>
+      <div class="links">
+        <a class="link" href="./convnetjs/demo/mnist.html" target="_blank">MNIST</a>
+        <a class="link ghost" href="./convnetjs/demo/cifar10.html" target="_blank">CIFAR-10</a>
+        <a class="link ghost" href="./convnetjs/demo/autoencoder.html" target="_blank">自编码器</a>
+        <a class="link ghost" href="./convnetjs/demo/rldemo.html" target="_blank">DQN</a>
+        <a class="link ghost" href="./convnetjs/demo/classify2d.html" target="_blank">2D 分类</a>
+        <a class="link ghost" href="./convnetjs/demo/regression.html" target="_blank">1D 回归</a>
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+
+<script>
+  const targets = [
+    { port: "8080", url: "http://localhost:8080" },
+    { port: "5001", url: "http://localhost:5001" },
+    { port: "8501", url: "http://localhost:8501" },
+    { port: "8502", url: "http://localhost:8502" },
+    { port: "8000", url: "http://localhost:8000/health" }
+  ];
+
+  async function probe(url) {
+    try {
+      await fetch(url, { mode: "no-cors", cache: "no-store", signal: AbortSignal.timeout(2500) });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  async function checkAll() {
+    const badges = document.querySelectorAll(".status[data-check]");
+    badges.forEach(b => { b.className = "status"; b.innerHTML = '<span class="dot"></span>检测中'; });
+
+    const results = {};
+    await Promise.all(targets.map(async t => { results[t.port] = await probe(t.url); }));
+    // 需求④ 是整条链路：MLflow + 预测页 + RAG + API 都要在
+    results["stack"] = Boolean(results["5001"] && results["8501"] && results["8502"] && results["8000"]);
+    results["/nn-playground/"] = true;
+    results["/transformer-explainer/"] = true;
+    results["/convnetjs/demo/mnist.html"] = true;
+
+    badges.forEach(b => {
+      const key = b.dataset.check;
+      const ok = results[key];
+      if (ok === undefined) return;
+      b.className = "status " + (ok ? "up" : "down");
+      b.innerHTML = '<span class="dot"></span>' + (ok ? "在线" : "未启动");
+    });
+
+    document.getElementById("lastCheck").textContent =
+      "检测于 " + new Date().toLocaleTimeString("zh-CN");
+  }
+
+  window.addEventListener("load", () => { setTimeout(checkAll, 400); });
+</script>
+</body>
+</html>

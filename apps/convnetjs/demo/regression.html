@@ -1,0 +1,73 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>ConvNetJS · 一维回归演示</title>
+<link href='http://fonts.googleapis.com/css?family=Cabin' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="css/style.css">
+
+<script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-3698471-21', 'stanford.edu');
+      ga('send', 'pageview');
+
+</script>
+
+<script src="js/jquery-1.8.3.min.js"></script>
+<script src="js/npgmain.js"></script>
+<script src="../build/convnet.js"></script>
+<script src="js/regression.js"></script>
+
+<style type="text/css">
+canvas { 
+    border: 1px solid #555;
+    margin-top: 10px;
+}
+#wrap {
+  width: 800px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 200px;
+}
+</style>
+
+</head>
+
+<body onLoad="NPGinit(10);">
+
+<div id="wrap">
+<h1>ConvNetJS · 一维回归演示</h1>
+
+<p>下图为 1 维回归：神经网络对给定 x 预测对应 y 坐标，损失函数为 L2，即最小化预测 y 与真实 y 之差的平方。系统每 0.1 秒将所有数据点多次送入 trainer 类训练。</p>
+
+<p>下方文本框中的内容会被 eval() 后重新载入，可直接修改以构建自己的网络。</p>
+
+
+<textarea id="layerdef" style="width:100%; height:250px;">
+</textarea>
+<br /><br  />
+<input id="buttontp" type="submit" value="更换网络" onclick="reload();" style="width: 300px; height: 50px;"/>
+
+<div style="float: right;">
+生成的样本数：  <input type="text" name="num_points" id="num_data" value="20">
+<input type="submit" value="重新生成数据" style="height:50px;" onclick="regen_data();" />
+</div>
+
+<br />
+<p style="color: red">点击画布添加数据点</p>
+<br />
+<input type="checkbox" name="draw_layer_outputs" id="layer_outs">
+同时用红色绘制指定层的输出（点击下方的层按钮切换）。
+<br /><div id="layer_ixes"></div>
+
+<canvas id="NPGcanvas" width="800" height="500">当前浏览器不支持 Canvas，请更换浏览器。</canvas>
+
+
+</div>
+
+</body>
+</html>
+

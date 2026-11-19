@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>ConvNetJS · 训练器对比（MNIST）</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="stylesheet" href="css/style.css">
+
+<script src="js/jquery-1.8.3.min.js"></script>
+<script src="../build/vis.js"></script>
+<script src="../build/util.js"></script>
+<script src="../build/convnet.js"></script>
+<script src="mnist/mnist_labels.js"></script>
+<script src="js/trainers.js"></script>
+
+</head>
+<body>
+  <div id="wrap">
+  <h2 style="text-align: center;">ConvNetJS · 训练器对比（MNIST）</h2>
+  <h1>说明</h1>
+  <p>本演示在 MNIST 上横向对比多个训练器，默认对 SGD、SGD+Momentum、Adam、Adagrad、Adadelta、Nesterov 建立基准。数学推导与说明见 Matthew Zeiler 的 <a href="http://www.matthewzeiler.com/pubs/googleTR2012/googleTR2012.pdf">Adadelta 论文</a>（Windowgrad 即论文中的 Idea #1）。经验上，Adagrad/Adadelta 对学习率设置不敏感、更稳定（Adadelta 略优）；调参到位的 SGD+Momentum 通常收敛更快、终值更好。</p>
+
+  <textarea id="layerdef" style="width:100%; height:400px;">
+  </textarea>
+  <br /><br  />
+  <input id="buttontp" type="submit" value="重新运行" onclick="reload();" style="width: 300px; height: 50px;"/>
+
+  <h1>损失随已见样本数变化</h1>
+  <canvas id="lossgraph" width="800" height="400"></canvas>
+
+  <h1>测试准确率 · 随已见样本数变化</h1>
+  <canvas id="testaccgraph" width="800" height="400"></canvas>
+
+  <h1>训练准确率 · 随已见样本数变化</h1>
+  <canvas id="trainaccgraph" width="800" height="400"></canvas>
+
+  </div>
+</body>
+</html>
+
+
+

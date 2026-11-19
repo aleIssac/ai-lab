@@ -1,0 +1,119 @@
+{
+  "sessionId": "e40d9634-a5bb-4b3a-b289-61d98102bd32",
+  "title": "你好",
+  "workspaceDirectory": "file:///home/coder/project",
+  "history": [
+    {
+      "message": {
+        "role": "user",
+        "content": [
+          {
+            "type": "text",
+            "text": "你好"
+          }
+        ],
+        "id": "0aaf5ba0-c81b-451d-b5f8-a30bc4428607"
+      },
+      "contextItems": [],
+      "editorState": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "你好"
+              }
+            ]
+          }
+        ]
+      },
+      "appliedRules": [
+        {
+          "source": "rules-block"
+        },
+        {
+          "source": "rules-block"
+        },
+        {
+          "source": "rules-block"
+        }
+      ]
+    },
+    {
+      "message": {
+        "id": "6b4a39a8-f035-46ad-b258-f2fcbe0bcec2",
+        "role": "assistant",
+        "content": "```json\n{\"name\": \"hello\", \"arguments\": {\"message\": \"你好\"}}\n```"
+      },
+      "contextItems": [],
+      "promptLogs": [
+        {
+          "modelTitle": "Qwen 对话",
+          "modelProvider": "ollama",
+          "prompt": "<system>\n<important_rules>\n  You are in agent mode.\n\n  If you need to use multiple tools, you can call multiple read-only tools simultaneously.\n\n  Always include the language and file name in the info string when you write code blocks.\n  If you are editing \"src/main.py\" for example, your code block should start with '```python src/main.py'\n\n\nFor larger codeblocks (>20 lines), use brief language-appropriate placeholders for unmodified sections, e.g. '// ... existing code ...'\n\nHowever, only output codeblocks for suggestion and demonstration purposes, for example, when enumerating multiple hypothetical options. For implementing changes, use the edit tools.\n\n</important_rules>\n\n一律使用简体中文回答。\n\n涉及 PyTorch 报错时，先判断是张量形状不匹配、设备不一致还是梯度爆炸，再给修复代码。\n\n生成代码时保留原有注释风格，不要删除已有中文注释。\n\n<user>\n你好\n\n",
+          "completion": "<assistant>\n```\n\n<assistant>\njson\n\n<assistant>\n\n\n\n<assistant>\n{\"\n\n<assistant>\nname\n\n<assistant>\n\":\n\n<assistant>\n \"\n\n<assistant>\nhello\n\n<assistant>\n\",\n\n<assistant>\n \"\n\n<assistant>\narguments\n\n<assistant>\n\":\n\n<assistant>\n {\"\n\n<assistant>\nmessage\n\n<assistant>\n\":\n\n<assistant>\n \"\n\n<assistant>\n你好\n\n<assistant>\n\"}}\n\n\n<assistant>\n```\n\n<assistant>\n\n\n"
+        }
+      ],
+      "isGatheringContext": false
+    },
+    {
+      "message": {
+        "role": "user",
+        "content": [
+          {
+            "type": "text",
+            "text": "你好"
+          }
+        ],
+        "id": "bc6d36e5-96d1-4ef5-a0ed-15173bb2f791"
+      },
+      "contextItems": [],
+      "editorState": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "你好"
+              }
+            ]
+          }
+        ]
+      },
+      "appliedRules": [
+        {
+          "source": "rules-block"
+        },
+        {
+          "source": "rules-block"
+        },
+        {
+          "source": "rules-block"
+        }
+      ]
+    },
+    {
+      "message": {
+        "id": "fb141308-761c-40a4-ba0b-a55964d33022",
+        "role": "assistant",
+        "content": "```json\n{\"name\": \"hello\", \"arguments\": {\"message\": \"你好\"}}\n```"
+      },
+      "contextItems": [],
+      "promptLogs": [
+        {
+          "modelTitle": "Qwen 对话",
+          "modelProvider": "ollama",
+          "prompt": "<system>\n<important_rules>\n  You are in agent mode.\n\n  If you need to use multiple tools, you can call multiple read-only tools simultaneously.\n\n  Always include the language and file name in the info string when you write code blocks.\n  If you are editing \"src/main.py\" for example, your code block should start with '```python src/main.py'\n\n\nFor larger codeblocks (>20 lines), use brief language-appropriate placeholders for unmodified sections, e.g. '// ... existing code ...'\n\nHowever, only output codeblocks for suggestion and demonstration purposes, for example, when enumerating multiple hypothetical options. For implementing changes, use the edit tools.\n\n</important_rules>\n\n一律使用简体中文回答。\n\n涉及 PyTorch 报错时，先判断是张量形状不匹配、设备不一致还是梯度爆炸，再给修复代码。\n\n生成代码时保留原有注释风格，不要删除已有中文注释。\n\n<user>\n你好\n\n<assistant>\n```json\n{\"name\": \"hello\", \"arguments\": {\"message\": \"你好\"}}\n```\n\n<user>\n你好\n\n",
+          "completion": "<assistant>\n```\n\n<assistant>\njson\n\n<assistant>\n\n\n\n<assistant>\n{\"\n\n<assistant>\nname\n\n<assistant>\n\":\n\n<assistant>\n \"\n\n<assistant>\nhello\n\n<assistant>\n\",\n\n<assistant>\n \"\n\n<assistant>\narguments\n\n<assistant>\n\":\n\n<assistant>\n {\"\n\n<assistant>\nmessage\n\n<assistant>\n\":\n\n<assistant>\n \"\n\n<assistant>\n你好\n\n<assistant>\n\"}}\n\n\n<assistant>\n```\n\n<assistant>\n\n\n"
+        }
+      ],
+      "isGatheringContext": false
+    }
+  ],
+  "mode": "agent",
+  "chatModelTitle": "Qwen 对话"
+}

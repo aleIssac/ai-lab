@@ -1,0 +1,119 @@
+{
+  "sessionId": "e547a8cb-c82e-4533-82d7-b4742e232800",
+  "title": "PyTorch 报错与脚本协助",
+  "workspaceDirectory": "file:///home/coder/project",
+  "history": [
+    {
+      "message": {
+        "role": "user",
+        "content": [
+          {
+            "type": "text",
+            "text": "你好"
+          }
+        ],
+        "id": "ede59b5a-6a85-4349-91a4-78ad3d0ab955"
+      },
+      "contextItems": [],
+      "editorState": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "你好"
+              }
+            ]
+          }
+        ]
+      },
+      "appliedRules": [
+        {
+          "source": "rules-block"
+        },
+        {
+          "source": "rules-block"
+        },
+        {
+          "source": "rules-block"
+        }
+      ]
+    },
+    {
+      "message": {
+        "id": "2b9f2661-382f-4f2f-9cc7-b9d984beb256",
+        "role": "assistant",
+        "content": "你好！有什么可以帮你的吗？\n\n需要我帮忙处理代码、排查 PyTorch 报错、写脚本或看文件，直接告诉我就行。"
+      },
+      "contextItems": [],
+      "promptLogs": [
+        {
+          "modelTitle": "DeepSeek Chat",
+          "modelProvider": "deepseek",
+          "prompt": "<system>\n<important_rules>\n  You are in agent mode.\n\n  If you need to use multiple tools, you can call multiple read-only tools simultaneously.\n\n  Always include the language and file name in the info string when you write code blocks.\n  If you are editing \"src/main.py\" for example, your code block should start with '```python src/main.py'\n\n\nFor larger codeblocks (>20 lines), use brief language-appropriate placeholders for unmodified sections, e.g. '// ... existing code ...'\n\nHowever, only output codeblocks for suggestion and demonstration purposes, for example, when enumerating multiple hypothetical options. For implementing changes, use the edit tools.\n\n</important_rules>\n\n一律使用简体中文回答。\n\n涉及 PyTorch 报错时，先判断是张量形状不匹配、设备不一致还是梯度爆炸，再给修复代码。\n\n生成代码时保留原有注释风格，不要删除已有中文注释。\n\n<user>\n你好\n\n",
+          "completion": "<assistant>\n你好\n\n<assistant>\n！\n\n<assistant>\n有什么\n\n<assistant>\n可以\n\n<assistant>\n帮\n\n<assistant>\n你的\n\n<assistant>\n吗\n\n<assistant>\n？\n\n\n\n<assistant>\n需要\n\n<assistant>\n我\n\n<assistant>\n帮忙\n\n<assistant>\n处理\n\n<assistant>\n代码\n\n<assistant>\n、\n\n<assistant>\n排查\n\n<assistant>\n Py\n\n<assistant>\nTor\n\n<assistant>\nch\n\n<assistant>\n \n\n<assistant>\n报\n\n<assistant>\n错\n\n<assistant>\n、\n\n<assistant>\n写\n\n<assistant>\n脚本\n\n<assistant>\n或\n\n<assistant>\n看\n\n<assistant>\n文件\n\n<assistant>\n，\n\n<assistant>\n直接\n\n<assistant>\n告诉\n\n<assistant>\n我就\n\n<assistant>\n行\n\n<assistant>\n。\n\n"
+        }
+      ],
+      "isGatheringContext": false
+    },
+    {
+      "message": {
+        "role": "user",
+        "content": [
+          {
+            "type": "text",
+            "text": "你好"
+          }
+        ],
+        "id": "a9475ae4-0481-4c2e-bc64-d068a63ca8fd"
+      },
+      "contextItems": [],
+      "editorState": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "你好"
+              }
+            ]
+          }
+        ]
+      },
+      "appliedRules": [
+        {
+          "source": "rules-block"
+        },
+        {
+          "source": "rules-block"
+        },
+        {
+          "source": "rules-block"
+        }
+      ]
+    },
+    {
+      "message": {
+        "id": "bfd4bd4d-72ca-48ff-bfe5-ff09a2ed52a1",
+        "role": "assistant",
+        "content": "你好！有什么我可以帮你的吗？"
+      },
+      "contextItems": [],
+      "promptLogs": [
+        {
+          "modelTitle": "Qwen Coder 1.5B",
+          "modelProvider": "ollama",
+          "prompt": "<system>\n<important_rules>\n  You are in agent mode.\n\n  If you need to use multiple tools, you can call multiple read-only tools simultaneously.\n\n  Always include the language and file name in the info string when you write code blocks.\n  If you are editing \"src/main.py\" for example, your code block should start with '```python src/main.py'\n\n\nFor larger codeblocks (>20 lines), use brief language-appropriate placeholders for unmodified sections, e.g. '// ... existing code ...'\n\nHowever, only output codeblocks for suggestion and demonstration purposes, for example, when enumerating multiple hypothetical options. For implementing changes, use the edit tools.\n\n</important_rules>\n\n一律使用简体中文回答。\n\n涉及 PyTorch 报错时，先判断是张量形状不匹配、设备不一致还是梯度爆炸，再给修复代码。\n\n生成代码时保留原有注释风格，不要删除已有中文注释。\n\n<user>\n你好\n\n<assistant>\n你好！有什么可以帮你的吗？\n\n需要我帮忙处理代码、排查 PyTorch 报错、写脚本或看文件，直接告诉我就行。\n\n<user>\n你好\n\n",
+          "completion": "<assistant>\n你好\n\n<assistant>\n！\n\n<assistant>\n有什么\n\n<assistant>\n我可以\n\n<assistant>\n帮\n\n<assistant>\n你的\n\n<assistant>\n吗\n\n<assistant>\n？\n\n<assistant>\n\n\n"
+        }
+      ],
+      "isGatheringContext": false
+    }
+  ],
+  "mode": "agent",
+  "chatModelTitle": "Qwen Coder 1.5B"
+}

@@ -1,0 +1,83 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>ConvNetJS · 二维数据分类演示</title>
+<link href='http://fonts.googleapis.com/css?family=Cabin' rel='stylesheet' type='text/css'>
+
+<script src="js/jquery-1.8.3.min.js"></script>
+<script src="js/npgmain.js"></script>
+<script src="../build/convnet.js"></script>
+<script src="../build/util.js"></script>
+<script src="js/classify2d.js"></script>
+
+<style type="text/css">
+body {
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  color: #333;
+  padding: 20px;
+}
+canvas { 
+    border: 1px solid #555;
+}
+#wrap {
+  width: 900px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 200px;
+}
+.pane {
+  width: 420px;
+  display: inline-block;
+  vertical-align: top;
+}
+input[type="submit"]
+{
+  margin: 3px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="wrap">
+<h1>ConvNetJS · 二维数据分类演示（2 层神经网络）</h1>
+
+<p>下图为二维平面上的二分类玩具问题，红色为类别 0，绿色为类别 1。网络结构如下：</p>
+
+<textarea id="layerdef" style="width:100%; height:200px;">
+</textarea>
+<br>
+<input id="buttontp" type="submit" value="更换网络" onclick="reload();" style="width: 300px; height: 50px;"/>
+
+<p>可直接修改上方文本框，点击按钮时执行 eval() 并重新载入网络。系统每 0.1 秒将所有数据点多次送入 trainer 类训练，随后把网络的预测结果“绘制”在数据点下方，用于展示泛化效果。</p>
+
+<p>右侧展示原始空间中所有网格点与数据在指定层、指定 2 个神经元下的变换后表示。中括号内数字为该层神经元总数；若大于 2，则仅显示其中两个，可用 cycle 按钮轮换。</p>
+
+<div class="panes">
+<div class="pane">
+<canvas id="NPGcanvas" width="400" height="400">当前浏览器不支持 Canvas，请更换浏览器。</canvas>
+<input id="buttondata1" type="submit" value="简单数据" onclick="original_data();" style="width: 100px; height: 30px;"/>
+<input id="buttondata2" type="submit" value="环形数据" onclick="circle_data();" style="width: 100px; height: 30px;"/>
+<input id="buttondata3" type="submit" value="螺旋数据" onclick="spiral_data();" style="width: 100px; height: 30px;"/><br>
+<input id="buttondata4" type="submit" value="随机数据" onclick="random_data();" style="width: 100px; height: 30px;"/><br>
+<p><b>单击</b>：添加红色数据点<br>
+<b>Shift+单击</b>：添加绿色数据点<br>
+<b>Ctrl+单击</b>：删除最近的数据点<br></p>
+</div>
+
+<div class="pane">
+  <canvas id="viscanvas" width="400" height="400">当前浏览器不支持 Canvas，请更换浏览器。</canvas>
+  <div id="cyclestatus"></div>
+<div id="layer_ixes"></div>
+<input id="buttoncycle" type="submit" value="切换所选层中可视化的神经元（多于 2 个时可用）" onclick="cycle();" style="height: 40px;"/>
+</div>
+
+</div>
+
+
+</div>
+
+</body>
+</html>

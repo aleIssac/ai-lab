@@ -1,0 +1,109 @@
+{
+  "name": "ailab-autocomplete",
+  "displayName": "AI Lab Tab 补全与注释",
+  "description": "本地 Ollama 驱动的 Tab 智能补全 + 一键中文注释（离线、无云端依赖）",
+  "version": "0.1.0",
+  "publisher": "ailab",
+  "engines": {
+    "vscode": "^1.70.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "ailab.addComment",
+        "title": "AI Lab: 给选中代码加注释（未选中则当前函数）"
+      },
+      {
+        "command": "ailab.addCommentFile",
+        "title": "AI Lab: 给整个文件的所有函数加注释"
+      },
+      {
+        "command": "ailab.diagnose",
+        "title": "AI Lab: 诊断报错（选区/剪贴板/编辑器诊断）"
+      },
+      {
+        "command": "ailabAutocomplete.test",
+        "title": "AI Lab: 测试当前文件的补全请求"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "ailab.addComment",
+        "key": "ctrl+alt+c",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "ailab.addCommentFile",
+        "key": "ctrl+alt+shift+c",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "ailab.diagnose",
+        "key": "ctrl+alt+k",
+        "when": "editorTextFocus"
+      }
+    ],
+    "configuration": {
+      "title": "AI Lab 补全",
+      "properties": {
+        "ailabAutocomplete.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "启用 Tab 智能补全"
+        },
+        "ailabAutocomplete.endpoint": {
+          "type": "string",
+          "default": "http://localhost:11435/api/generate",
+          "description": "补全用的 Ollama 接口（经修正代理，带 raw:true）"
+        },
+        "ailabAutocomplete.model": {
+          "type": "string",
+          "default": "qwen-coder-fim",
+          "description": "补全模型名"
+        },
+        "ailabAutocomplete.maxTokens": {
+          "type": "number",
+          "default": 32,
+          "description": "单次补全最多生成的 token 数"
+        },
+        "ailabAutocomplete.debounceMs": {
+          "type": "number",
+          "default": 250,
+          "description": "输入停止多久后才发请求（毫秒）"
+        },
+        "ailabAutocomplete.timeoutMs": {
+          "type": "number",
+          "default": 8000,
+          "description": "补全请求超时（毫秒）"
+        },
+        "ailabAutocomplete.commentEndpoint": {
+          "type": "string",
+          "default": "http://ollama:11434/api/generate",
+          "description": "注释生成用的 Ollama 接口（直连，走 chat 模板）"
+        },
+        "ailabAutocomplete.commentModel": {
+          "type": "string",
+          "default": "qwen2.5-coder:1.5b",
+          "description": "注释生成用的对话模型"
+        },
+        "ailabAutocomplete.commentMaxTokens": {
+          "type": "number",
+          "default": 512,
+          "description": "注释生成最多输出的 token 数"
+        },
+        "ailabAutocomplete.commentTimeoutMs": {
+          "type": "number",
+          "default": 120000,
+          "description": "注释生成超时（毫秒）"
+        }
+      }
+    }
+  }
+}

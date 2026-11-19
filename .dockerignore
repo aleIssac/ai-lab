@@ -1,0 +1,26 @@
+.venv/
+venv/
+**/__pycache__/
+**/*.pyc
+mlruns/
+.git/
+.gitignore
+docs/
+nn-playground/
+**/*.parquet
+**/*.pt
+**/*.pkl
+**/*.joblib
+.env
+node_modules/
+build.log
+*.png
+_*.md
+
+# 这些通过 volume 挂进容器，不需要进镜像，排除掉能大幅缩短构建时间
+apps/transformer-explainer/
+apps/convnetjs/
+docker/extensions/
+ollama-models/
+.workbuddy/
+部署包/

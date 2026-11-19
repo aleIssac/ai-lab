@@ -1,0 +1,11 @@
+FROM qwen2.5-coder:1.5b
+
+# 关键：不让 Ollama 用 chat template 包装 prompt
+# autocomplete 发来的是完整 FIM 格式（<|fim_prefix|>...<|fim_middle|>），必须原样送进模型
+TEMPLATE "{{ .Prompt }}"
+
+# FIM 补全结束标记，防止模型继续编造
+PARAMETER stop "<|fim_pad|>"
+PARAMETER stop "<|fim_middle|>"
+PARAMETER stop "<|endoftext|>"
+PARAMETER temperature 0.2

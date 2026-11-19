@@ -1,0 +1,31 @@
+# 默认按文本处理，仓库内统一 LF
+* text=auto
+
+# Windows 批处理必须是 CRLF，且只能 ASCII（cmd 解析中文注释会错位）
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# 容器内脚本保持 LF
+*.sh text eol=lf
+
+# notebook 是 JSON，不做换行归一化，避免每次打开都产生整文件 diff
+*.ipynb -text
+
+# 二进制
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pkl binary
+*.joblib binary
+*.parquet binary
+*.onnx binary
+*.wasm binary
+*.db binary
+*.sqlite binary
+*.ttf binary
+*.woff binary
+*.woff2 binary
+*.pdf binary
