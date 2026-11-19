@@ -95,7 +95,6 @@ apps/            Streamlit 页面与三个前端可视化项目
 courses/         9 个 Notebook
 data/            raw 原始数据、processed 清洗结果、kb 知识库
 docker/          Dockerfile、补全扩展、MLflow 汉化脚本
-docs/            部署与运维文档、截图
 models/          预处理器、模型 pkl、Spark Pipeline
 portal/          门户首页
 src/             数据管道、训练、FastAPI 服务、RAG、Ollama 代理
